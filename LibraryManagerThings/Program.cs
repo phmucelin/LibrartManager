@@ -130,4 +130,27 @@ class Program
         }
         
     }
+
+    static void DevolverLivro()
+    {
+        Console.WriteLine("Qual nome do usuario que ira devolver o livro? ");
+        string nome = Console.ReadLine();
+        var buscaUser = listaDeUsuarios.FirstOrDefault(u => u.Nome == nome);
+        if(buscaUser == null)
+        {
+            Console.WriteLine("Usuario nao encontrado na base de dados.");
+            return;
+        }
+        Console.WriteLine("Qual nome do livro que deseja devolver? ");
+        string nomeLivro = Console.ReadLine();
+        var LivroDev = buscaUser.LivrosEmprestados.FirstOrDefault(ld => ld.Titulo == nomeLivro);
+        if(LivroDev == null)
+        {
+            Console.WriteLine("Livro nao encontrado na base de dados.");
+            return;
+        }
+        buscaUser.LivrosEmprestados.Remove(LivroDev);
+        Console.WriteLine("Livro removido com sucesso!");
+    }
+
 }
