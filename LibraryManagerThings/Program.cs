@@ -92,13 +92,41 @@ class Program
                 else
                 {
                     buscaIdentificar.LivrosEmprestados.Add(buscaLivro);
-                    Console.WriteLine($"Livro emprestado para o usuario {nome}");
+                    Console.WriteLine($"Livro emprestado para o usuario {t.Nome}");
                 }
             }
             
         }else if(escolha == i)
         {
-            int.TryParse(Console.ReadLine(), out int id);
+            int id = int.TryParse(Console.ReadLine());
+            var buscaId = listaDeUsuarios.FirstOrDefault(i => i.Id == id);
+            if(buscaId == null)
+            {
+                Console.WriteLine("Tivemos um erro ao buscar o ID do usuario mencionado.");
+                return;
+            }else
+            {
+                Console.WriteLine("Qual nome do livro que voce deseja? ");
+                string livro = Console.ReadLine();
+                var buscaLivro = listaDeLivros.FirstOrDefault(l => l.Titulo == livro);
+                if(buscaLivro == null)
+                {
+                    Console.WriteLine("Problema ao encontrar livro mencionado.");
+                    return;
+                }
+                bool jaEmprestado = buscaIdentificar.LivrosEmprestados
+                    .Exists(l => l.Titulo == buscaLivro.Titulo);
+                if(jaEmprestado == true)
+                {
+                    Console.WriteLine("Esse livro ja foi emprestado para o usuario");
+                    return;
+                }
+                else
+                {
+                    buscaIdentificar.LivrosEmprestados.Add(buscaLivro);
+                    Console.WriteLine($"Livro emprestado para o usuario {t.Nome}");
+                }
+            }
         }
         
     }
